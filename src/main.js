@@ -1,4 +1,4 @@
-// The rakhimkulov&co landing animation, in three modes:
+// The singularity landing animation, in three modes:
 //
 //   full    a galaxy spirals into its centre, the centre blows up, and a tiny
 //           black hole is born where it was; the camera flies in until the

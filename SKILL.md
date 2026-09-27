@@ -1,11 +1,11 @@
 ---
 name: singularity
-description: Integrate the rakhimkulov&co landing animation, the npm package @miniiarrr/singularity (a galaxy of ink dots that collapses into a black hole with a surfer riding it, on three.js), into any site or app in one of its three modes (full, galaxy, hole), and verify it. Use this skill whenever the user mentions the singularity, singularity-kit, @miniiarrr/singularity, the black hole / galaxy / surfer animation or the rakhimkulov&co hero animation, wants it on a page (plain index.html, React, Next.js, Vue, Svelte, Astro), wants to change its mode, colours, size, position or entrance, or asks why it is not showing, flashes, covers the text or is off-centre. Also use it when building a hero or landing page for rakhimkulov&co that needs its animation.
+description: Integrate the singularity landing animation, the npm package @miniiarrr/singularity (a galaxy of ink dots that collapses into a black hole with a surfer riding it, on three.js), into any site or app in one of its three modes (full, galaxy, hole), and verify it. Use this skill whenever the user mentions the singularity, singularity-kit, @miniiarrr/singularity, the black hole / galaxy / surfer hero animation, wants it on a page (plain index.html, React, Next.js, Vue, Svelte, Astro), wants to change its mode, colours, size, position or entrance, or asks why it is not showing, flashes, covers the text or is off-centre. Also use it when building a hero or landing page that needs this animation.
 ---
 
-# Singularity: adding the rakhimkulov&co animation to a page
+# Singularity: adding the animation to a page
 
-One animation, shipped as `@miniiarrr/singularity`. A page never draws it differently: the colours, timing, scales and seeds are the brand's identity and are fixed in the package. What a page decides is **which of the three modes plays**, **where the scene sits** (the anchor), **what it stays inside** (the clip), and the light page colour. Keep to that and the result looks exactly like rakhimkulov.co; step outside it and the scene silently disappears, which is the most common failure.
+One animation, shipped as `@miniiarrr/singularity`. A page never draws it differently: the colours, timing, scales and seeds are the brand's identity and are fixed in the package. What a page decides is **which of the three modes plays**, **where the scene sits** (the anchor), **what it stays inside** (the clip), and the light page colour. Keep to that and the result looks exactly like the reference page; step outside it and the scene silently disappears, which is the most common failure.
 
 ## 1. Find the package and its docs
 
@@ -51,7 +51,7 @@ Pick it with `data-singularity-mode="galaxy"` on the anchor (static pages) or `m
 </body>
 ```
 
-The head snippet matters: without it the fallback drawing flashes for a frame before the scene, and a failed module leaves the hero blank. rakhimkulov.co itself copies `dist/singularity.js` and `singularity.css` next to the page instead of the CDN; do the same when the site must not call third parties.
+The head snippet matters: without it the fallback drawing flashes for a frame before the scene, and a failed module leaves the hero blank. A site that must not call third parties copies `dist/singularity.js` and `singularity.css` next to the page instead of using the CDN.
 
 **Bundled app (Vite, webpack, Astro, Vue, Svelte).** `npm i @miniiarrr/singularity three`, then, once the anchor is in the DOM:
 
@@ -80,7 +80,7 @@ Keep the head snippet in every framework (in Next.js put it in the root layout's
 
 These are the rules the scene depends on; each has a concrete failure when broken:
 
-- **The anchor is the square box itself**, 300–440 px wide (rakhimkulov.co: `min(380px, 30vw, 42vh)` desktop, `min(320px, 38vh)` tablet, `min(78vw, 300px)` phone), marked `data-singularity`, with the fallback drawing inside it. Its *width* is the scale of everything and its centre is where the hole sits; mark a stretched column around it and the hole comes out the wrong size or off-centre. Put it in the hero's right column on desktop and first in the DOM so stacked layouts show it above the copy.
+- **The anchor is the square box itself**, 300–440 px wide (the example page: `min(380px, 30vw, 42vh)` desktop, `min(320px, 38vh)` tablet, `min(78vw, 300px)` phone), marked `data-singularity`, with the fallback drawing inside it. Its *width* is the scale of everything and its centre is where the hole sits; mark a stretched column around it and the hole comes out the wrong size or off-centre. Put it in the hero's right column on desktop and first in the DOM so stacked layouts show it above the copy.
 - **The scene is three times the anchor box** and runs behind the hero text on purpose. Leave room; do not shrink the anchor to "make it fit".
 - **The page background lives on `body` alone** (or `html` alone, never both), and nothing overlapping the hero (frame, hero, its columns) has an opaque `background`. The canvas is fixed at `z-index: -1`, above the page background and below the content; any opaque box over it hides it with a clean console. `body` must not carry `transform` or `filter` (they break fixed positioning).
 - **The clip** (`data-singularity-clip`) is the element the scene must stay inside while behind the page, e.g. a page frame. Omit it if there is no frame.

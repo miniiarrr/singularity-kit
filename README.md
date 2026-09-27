@@ -1,6 +1,6 @@
 # @miniiarrr/singularity
 
-The rakhimkulov&co landing animation, as an npm package, so it looks and behaves on any site exactly as it does on rakhimkulov.co. A galaxy of ink dots spirals into its centre, the centre blows up and debris flies past the viewer, a tiny black hole forms where the galaxy was, the camera flies in, and a surfer made of the same dots gathers out of the gas and rides the disc all the way round the hole. The gas parts for the pointer, and so does he: the company, managing uncertainty.
+A landing-page animation, as an npm package, so it looks and behaves exactly the same on every site that runs it. A galaxy of ink dots spirals into its centre, the centre blows up and debris flies past the viewer, a tiny black hole forms where the galaxy was, the camera flies in, and a surfer made of the same dots gathers out of the gas and rides the disc all the way round the hole. The gas parts for the pointer, and so does he.
 
 It plays in three **modes**, chosen by one parameter:
 
@@ -10,7 +10,7 @@ It plays in three **modes**, chosen by one parameter:
 | `galaxy` | the galaxy alone: its arms and the red core turning slowly, forever; the stars back away from the pointer |
 | `hole` | the black hole alone, seen close up from its birth: the gas condenses around it (~3 s), the surfer gathers out of the gas (~4 s) and rides |
 
-This repository is the reference implementation: the package is published from it, and rakhimkulov.co installs it like any other site. Integrating it with an AI coding assistant? `SKILL.md` is a ready-made skill for Claude Code (see *For AI coding assistants*); `CLAUDE.md` is the short procedure and the rules.
+This repository is the reference implementation: the package is published from it, and the brand's own site installs it like any other consumer. Integrating it with an AI coding assistant? `SKILL.md` is a ready-made skill for Claude Code (see *For AI coding assistants*); `CLAUDE.md` is the short procedure and the rules.
 
 ```
 singularity-kit/  (this repository = the package)
@@ -51,7 +51,7 @@ Plain `index.html` pages don't install anything: load the auto-mounting bundle f
 <script type="module" src="https://cdn.jsdelivr.net/npm/@miniiarrr/singularity@1/dist/singularity.js"></script>
 ```
 
-The bundles contain three.js: about 560 KB raw, 122 KB brotli / 146 KB gzip, loaded as a deferred module, off the critical path. rakhimkulov.co serves its copy same-origin.
+The bundles contain three.js: about 560 KB raw, 122 KB brotli / 146 KB gzip, loaded as a deferred module, off the critical path. A site that must not call third parties serves its own copy same-origin.
 
 ## For AI coding assistants
 
@@ -157,9 +157,9 @@ Returns `{ canvas, mode, destroy() }`; on failure `canvas` and `mode` are `null`
 
 ## The contract: what the page provides
 
-**The anchor** (`data-singularity`, or the `anchor` option). The scene is projected so its centre lands on the centre of this element, and every size on screen scales with its *width*: the galaxy and the black hole are three times as big as the box. Make it square and between about 300 and 440 px wide (the site uses `min(380px, 30vw, 42vh)` on desktop, `min(320px, 38vh)` on tablets, `min(78vw, 300px)` on phones); dot sizes are tuned for 380 px and the dot count thins on smaller boxes to keep the stipple density, but does not grow on bigger ones. The rect is re-read every frame, so it can be laid out responsively and scrolls with the page. On rakhimkulov.co it is the right-hand column of the hero on desktop and sits above the copy on stacked layouts. Its content is the fallback: hidden by `visibility: hidden` while the scene runs (CSS animations inside stopped), shown when WebGL is missing or anything fails.
+**The anchor** (`data-singularity`, or the `anchor` option). The scene is projected so its centre lands on the centre of this element, and every size on screen scales with its *width*: the galaxy and the black hole are three times as big as the box. Make it square and between about 300 and 440 px wide (the example page uses `min(380px, 30vw, 42vh)` on desktop, `min(320px, 38vh)` on tablets, `min(78vw, 300px)` on phones); dot sizes are tuned for 380 px and the dot count thins on smaller boxes to keep the stipple density, but does not grow on bigger ones. The rect is re-read every frame, so it can be laid out responsively and scrolls with the page. In the example page it is the right-hand column of the hero on desktop and sits above the copy on stacked layouts. Its content is the fallback: hidden by `visibility: hidden` while the scene runs (CSS animations inside stopped), shown when WebGL is missing or anything fails.
 
-**The clip** (`data-singularity-clip`, or the `clip` option). While the scene is behind the page it is drawn only inside this element's padding box, i.e. inside its border. On rakhimkulov.co that is the 1 px ink frame around the whole page, so the galaxy never spills into the bone margin outside the frame. Without a clip the scene uses the whole viewport.
+**The clip** (`data-singularity-clip`, or the `clip` option). While the scene is behind the page it is drawn only inside this element's padding box, i.e. inside its border. In the example page that is the 1 px ink frame around the whole page, so the galaxy never spills into the bone margin outside the frame. Without a clip the scene uses the whole viewport.
 
 **The background.** The canvas covers the viewport, fixed, with `z-index: -1`: it is painted above the page background and below the page content. That works only if the page background is set on `body` alone (or `html` alone), never on both, and nothing that overlaps the hero carries an opaque background of its own: no `background` on the frame, the hero or its columns. Text, rules and borders over the scene are fine; the point is that the hole runs behind them. `body` must not have `transform` or `filter` (they break fixed positioning).
 
@@ -190,7 +190,7 @@ Returns `{ canvas, mode, destroy() }`; on failure `canvas` and `mode` are `null`
 - **Scroll.** The scene follows the anchor. Once the intro is over (at once in `galaxy` and `hole`) and the anchor is scrolled about 1.5 boxes out of view, drawing stops (nothing runs while the reader is further down); it resumes when it comes back.
 - **Pointer.** The gas (in `galaxy` mode, the stars) backs away from the pointer sideways and closes again behind it, leaving a short fading wake. When the pointer comes within about 1.3 of his heights of the surfer he crouches, his dots pull tight, and he carves hard across the flow or airs ahead, whichever takes him farther from it. Touch works the same while a finger is down.
 - **Reduced motion.** With `prefers-reduced-motion: reduce` a still frame is shown with no pointer response: 16.5 s (the surfer on the crest of the arc over the hole) in `full` and `hole`, 1 s in `galaxy`. Switching the setting while the page is open takes effect at once.
-- **No WebGL2**, a failed script, a lost context: `gl` comes off `<html>`, the canvas is removed, the anchor's content shows. The fallback on rakhimkulov.co is the animated solar-system drawing (`example/solar-system.svg`; inline it and include `example/solar-system.css` for the CSS motion, or use an `<img>` and it stays still).
+- **No WebGL2**, a failed script, a lost context: `gl` comes off `<html>`, the canvas is removed, the anchor's content shows. The fallback in the example page is the animated solar-system drawing (`example/solar-system.svg`; inline it and include `example/solar-system.css` for the CSS motion, or use an `<img>` and it stays still).
 - **URL parameters.** `?mode=<mode>` picks the mode, `?at=<seconds>` freezes the timeline at that moment (the gas still parts for the pointer), `?from=<seconds>` plays from there. They are read from the page URL and win over the options, so they work on any page the scene is on; use `?at=16.5` for screenshots and visual comparison with `reference/final.png`.
 - **Every frame is a closed-form function of time**, evaluated on the GPU: no simulation state, so any moment can be drawn directly and a dropped frame changes nothing. Each mode builds only the layers it draws.
 - **Cost.** About 50 000 dots at full size in `full` (fewer on small boxes; `galaxy` draws about 26 000, `hole` about 25 000), one draw call per layer, no depth buffer, device pixel ratio capped at 2. Shaders are compiled up front, asynchronously where the GPU allows, before the first frame is shown.
@@ -258,4 +258,4 @@ Headless Chromium only has software WebGL behind `--use-angle=swiftshader --enab
 - `main.js`: `mount()`: the mode, the renderer, the canvas, the layers the mode has, the projection onto the anchor, the pointer wake, the scissor, the loop, `destroy()`.
 - `auto.js`: the auto-mounting entry. `react/index.js`: the React component. `index.d.ts`: the types. `SKILL.md`: the Claude Code skill; `CLAUDE.md`: the integration notes for any assistant.
 
-three.js is MIT licensed (its notice is in `LICENSE` and at the end of the bundles). The animation itself is © rakhimkulov&co, all rights reserved: see `LICENSE`. The rakhimkulov&co brand fonts are licensed separately and are not part of this package; the example uses a system serif.
+three.js is MIT licensed (its notice is in `LICENSE` and at the end of the bundles). The animation itself is all rights reserved: see `LICENSE`. The brand fonts are licensed separately and are not part of this package; the example uses a system serif.
