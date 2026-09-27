@@ -4,11 +4,13 @@
   "description": "The rakhimkulov&co landing animation: a galaxy of ink dots collapses into a black hole and a surfer rides it. three.js; three modes (full, galaxy, hole); one mount() call or one script tag.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Miniiar Rakhimkulov",
-  "homepage": "https://github.com/rakhimkulof/website/tree/main/singularity-kit#readme",
+  "homepage": "https://github.com/miniiarrr/singularity-kit#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rakhimkulof/website.git",
-    "directory": "singularity-kit"
+    "url": "git+https://github.com/miniiarrr/singularity-kit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/miniiarrr/singularity-kit/issues"
   },
   "keywords": [
     "three",

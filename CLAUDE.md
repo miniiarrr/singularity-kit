@@ -1,6 +1,6 @@
 # singularity-kit: integration notes for Claude
 
-This folder is the rakhimkulov&co landing animation (a galaxy collapses into a black hole; a surfer rides the disc round it), published as the npm package **`@miniiarrr/singularity`** so other sites can run it **unchanged**. It is the reference implementation: rakhimkulov.co builds from this same folder. `README.md` has the full contract; this file is the procedure and the rules.
+This repository is the rakhimkulov&co landing animation (a galaxy collapses into a black hole; a surfer rides the disc round it), published as the npm package **`@miniiarrr/singularity`** so sites can run it **unchanged**. It is the reference implementation and the source of truth: rakhimkulov.co installs the package like any other site. `README.md` has the full contract; this file is the procedure and the rules.
 
 There are three animations, chosen by the `mode` option (or `data-singularity-mode` on the anchor): `full` (the whole story: collapse, explosion, black hole, surfer), `galaxy` (the galaxy alone, turning forever, the stars parting for the pointer) and `hole` (the black hole from its birth, the gas condensing, the surfer gathering and riding). Every mode is a slice of the one timeline (`MODES` in `src/timeline.js`), so `?at=`/`?from=`/`from`/`at` mean the same scene time in all of them.
 
@@ -20,7 +20,7 @@ There are three animations, chosen by the `mode` option (or `data-singularity-mo
 - **One instance per page.** The `gl` class and the canvas are global.
 - **Keep the head snippet.** Without it the fallback flashes before the scene, and a module error leaves the page blank in the hero.
 - **The fonts are not in the kit.** The brand fonts are licensed separately; the example uses a system serif on purpose.
-- **Changes to the animation itself** happen here, in the website repository's `singularity-kit/` (the source of truth), with `npm run build`, `verify.py`, and a look at `git diff --stat reference/`; then a new version is published (below). Never fork per site.
+- **Changes to the animation itself** happen here, with `npm run build`, `verify.py`, and a look at `git diff --stat reference/`; then a new version is published (below) and the sites bump their dependency. Never fork per site.
 - **Generated files:** `dist/` and `reference/` are outputs of `npm run build` and `verify.py`. Don't hand-edit them.
 - **What ships** is the `files` list in `package.json` (`src/`, `dist/`, `react/`, `index.d.ts`, `singularity.css`, `SKILL.md`, the docs and `LICENSE`); `example/`, `reference/` and `verify.py` stay in the repository. `SKILL.md` is the Claude Code skill for integrating the package (consumers copy it to `.claude/skills/singularity/`); keep it in step with this file and the README when the contract or the options change. The source entry imports `three` bare (peer dependency); `dist/` bundles three.js `0.186.1`.
 
@@ -28,9 +28,11 @@ There are three animations, chosen by the `mode` option (or `data-singularity-mo
 
 ```bash
 cd singularity-kit
+npm install                          # once: esbuild + three (build-time only)
 python3 verify.py                    # green, and `git diff --stat reference/` as expected
-npm version patch|minor|major        # bumps package.json (commit it)
+npm version patch|minor|major        # bumps package.json, commits and tags (needs a clean tree)
 npm publish                          # prepublishOnly rebuilds dist/; public, scoped
+git push --follow-tags
 ```
 
 `npm login` once, as the `miniiarrr` account. `npm pack --dry-run` shows what would ship.

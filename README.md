@@ -10,10 +10,10 @@ It plays in three **modes**, chosen by one parameter:
 | `galaxy` | the galaxy alone: its arms and the red core turning slowly, forever; the stars back away from the pointer |
 | `hole` | the black hole alone, seen close up from its birth: the gas condenses around it (~3 s), the surfer gathers out of the gas (~4 s) and rides |
 
-This folder, in the website repository, is the reference implementation: rakhimkulov.co builds from it and the package is published from it. Integrating it with an AI coding assistant? `SKILL.md` is a ready-made skill for Claude Code (see *For AI coding assistants*); `CLAUDE.md` is the short procedure and the rules.
+This repository is the reference implementation: the package is published from it, and rakhimkulov.co installs it like any other site. Integrating it with an AI coding assistant? `SKILL.md` is a ready-made skill for Claude Code (see *For AI coding assistants*); `CLAUDE.md` is the short procedure and the rules.
 
 ```
-singularity-kit/  (= the package)
+singularity-kit/  (this repository = the package)
 ├── src/                      the source: six ES modules on three.js (the main entry; imports `three` bare)
 ├── dist/singularity.js       prebuilt, auto-mounting, three.js inside: one <script type="module"> and it runs
 ├── dist/singularity.lib.js   the same as a library: import { mount } (three.js inside)
@@ -206,7 +206,7 @@ The animation *is* the identity; the page supplies only where it sits and which 
 
 What may vary per site: the mode, the anchor's exact size within the range above, the clip element, the fallback content, `paper`, `from`.
 
-If the animation itself needs to change, change it in the website repository's `singularity-kit/` (the source of truth), rebuild, run the verification there, publish a new version, and update the dependency on the other sites. Don't fork the source per site.
+If the animation itself needs to change, change it here (this repository is the source of truth), rebuild, run the verification, publish a new version, and update the dependency on the sites. Don't fork the source per site.
 
 ## Building from source and publishing
 
@@ -222,8 +222,9 @@ Publishing (needs `npm login` as `miniiarrr`; `prepublishOnly` rebuilds `dist/`)
 
 ```bash
 python3 verify.py                  # green, and `git diff --stat reference/` shows only what you meant to change
-npm version patch|minor|major      # bumps package.json; commit it
-npm publish                        # public, scoped; `npm pack --dry-run` shows what ships
+npm version patch|minor|major      # bumps package.json, commits and tags (needs a clean tree)
+npm publish                        # public, scoped; `npm publish --dry-run` shows what ships
+git push --follow-tags
 ```
 
 ## Verifying

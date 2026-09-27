@@ -12,7 +12,7 @@ One animation, shipped as `@miniiarrr/singularity`. A page never draws it differ
 Locate the package before writing anything:
 
 - in an app: `node_modules/@miniiarrr/singularity/` (after `npm i @miniiarrr/singularity three`), or the CDN (`https://cdn.jsdelivr.net/npm/@miniiarrr/singularity@1/…`) for pages with no build step;
-- in the website repository: `singularity-kit/` (the source of truth; the package is published from it).
+- its own repository, `github.com/miniiarrr/singularity-kit` (the source of truth; the package is published from it), which also holds the reference screenshots and `verify.py`.
 
 Its `README.md` is the full contract (sections *The contract*, *Options*, *Troubleshooting*); its `CLAUDE.md` is the short procedure and the rules. Read the README's *The contract* section before touching the page layout: the scene is painted at `z-index: -1` behind the page, so the rules about backgrounds are what make it visible at all.
 
@@ -86,7 +86,7 @@ These are the rules the scene depends on; each has a concrete failure when broke
 - **The clip** (`data-singularity-clip`) is the element the scene must stay inside while behind the page, e.g. a page frame. Omit it if there is no frame.
 - **Light backgrounds only.** `paper` may follow a different light page colour (`data-singularity-paper` or `colors.paper`); ink and red stay. Dark pages are unsupported (the shadow is an ink disc).
 - **One instance per page.** The `gl` class on `<html>` and the canvas are global; call `destroy()` before mounting again.
-- **Do not edit the package's `src/`, colours, timeline or scales to fit a page.** If the page cannot satisfy the contract, change the page. Changes to the animation itself happen in the website repository's `singularity-kit/`, verified there, and published as a new version.
+- **Do not edit the package's `src/`, colours, timeline or scales to fit a page.** If the page cannot satisfy the contract, change the page. Changes to the animation itself happen in its repository (`miniiarrr/singularity-kit`), verified there, and published as a new version.
 
 ## 5. Verify before saying it is done
 
@@ -94,7 +94,7 @@ These are the rules the scene depends on; each has a concrete failure when broke
 2. In the console: no errors and no warning starting with `singularity:`. In the DOM: `canvas.cosmos` is a child of `<body>`, and after the intro (at once in `galaxy` and `hole`) it has the `behind` class.
 3. Play it normally: `full` ends behind the page after ~7 s; the other two are never in front. Scroll to the footer and back: no errors.
 4. `prefers-reduced-motion: reduce`: a still frame. No WebGL (`--disable-3d-apis`): the fallback drawing shows, `gl` is off `<html>`.
-5. Headless Chromium needs `--use-angle=swiftshader --enable-unsafe-swiftshader` for WebGL; without them screenshots are empty. The repository's `singularity-kit/verify.py` shows every check as Playwright code; adapt it to the new page rather than skipping checks.
+5. Headless Chromium needs `--use-angle=swiftshader --enable-unsafe-swiftshader` for WebGL; without them screenshots are empty. The package repository's `verify.py` shows every check as Playwright code; adapt it to the new page rather than skipping checks.
 
 ## Quick diagnosis
 
