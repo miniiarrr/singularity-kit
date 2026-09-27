@@ -1,0 +1,29 @@
+/* The solar-system drawing's own motion (planets orbit, the sun breathes, the
+   stars twinkle), for pages that inline the SVG as the fallback: an <img>
+   stays still. The class names are baked into the SVG; do not rename them.
+   singularity.css already stops these animations while the scene runs. */
+.b4-orbit { animation: b4spin linear infinite }
+.b4-o1 { transform-origin: 190px 190px; animation-duration: 7s; transform-box: view-box; will-change: transform }
+.b4-o2 { transform-origin: 190px 190px; animation-duration: 13s; transform-box: view-box; will-change: transform }
+.b4-o3 { transform-origin: 190px 190px; animation-duration: 26s; transform-box: view-box; will-change: transform }
+.b4-o4 { transform-origin: 190px 190px; animation-duration: 48s; transform-box: view-box; will-change: transform }
+.b4-moon { transform-origin: 87.8px 249px; animation: b4spin 3s linear infinite; transform-box: view-box; will-change: transform }
+.b4-ring { transform-origin: 190px 190px; animation: b4spin 160s linear infinite reverse; transform-box: view-box }
+.b4-rays { transform-origin: 190px 190px; animation: b4spin 90s linear infinite, b4shimmer 3.6s ease-in-out infinite; transform-box: view-box }
+.b4-sun { transform-origin: 190px 190px; animation: b4sun 5s ease-in-out infinite; transform-box: view-box }
+.b4-tw { animation: b4twinkle 4s ease-in-out infinite }
+.b4-tw2 { animation-delay: 1s }
+.b4-tw3 { animation-delay: 2s }
+.b4-tw4 { animation-delay: 3s }
+
+@keyframes b4spin { to { transform: rotate(360deg) } }
+@keyframes b4sun { 0%, 100% { transform: scale(1) } 50% { transform: scale(1.06) } }
+@keyframes b4shimmer { 0%, 100% { opacity: 1 } 50% { opacity: .6 } }
+@keyframes b4twinkle { 0%, 100% { opacity: .15 } 50% { opacity: 1 } }
+
+/* pause while the tab is hidden: toggle .paused on <body> from visibilitychange */
+.paused .b4-orbit, .paused .b4-moon, .paused .b4-ring, .paused .b4-rays, .paused .b4-sun, .paused .b4-tw { animation-play-state: paused }
+
+@media (prefers-reduced-motion: reduce) {
+  .b4-orbit, .b4-moon, .b4-ring, .b4-rays, .b4-sun, .b4-tw { animation: none }
+}

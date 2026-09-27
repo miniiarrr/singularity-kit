@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>singularity — example</title>
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="modulepreload" href="../dist/singularity.js">
+  <link rel="stylesheet" href="../singularity.css">
+  <style>
+    /* The page around the animation: the brand's frame, header rule and hero
+       grid, set in a system serif (the brand fonts are licensed and not part
+       of this kit). Only body carries a background: the canvas is painted
+       behind the page content and in front of that background. */
+    :root {
+      --bone: #EAE6DA;
+      --ink: #17160F;
+      --red: #C63A1C;
+      --rule: #B9B3A3;
+      --fi: 32px;   /* frame inset */
+      --hdr: 64px;  /* header strip height */
+      --pad: 64px;  /* section side padding inside the frame */
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0 }
+    body {
+      min-height: 100dvh;
+      background: var(--bone);
+      color: var(--ink);
+      font-family: Georgia, 'Times New Roman', serif;
+      line-height: 1.5;
+      overflow-x: clip;
+    }
+    code { font-size: .9em }
+    a { color: inherit }
+
+    .frame {
+      margin: var(--fi);
+      min-height: calc(100dvh - var(--fi) * 2);
+      border: 1px solid var(--ink);
+      display: flex;
+      flex-direction: column;
+    }
+    .site-header {
+      height: var(--hdr);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      padding: 0 26px;
+      border-bottom: 1px solid var(--rule);
+      font-weight: 700;
+      font-size: 22px;
+    }
+    .amp { color: var(--red) }
+
+    /* Hero: the first screen. Copy left, the anchor in a 440px right column. */
+    .hero {
+      min-height: calc(100svh - var(--fi) * 2 - var(--hdr) - 2px);
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 440px;
+      align-items: center;
+    }
+    .hero-copy { grid-column: 1; grid-row: 1; padding: 48px 24px 48px var(--pad) }
+    h1 { font-size: clamp(56px, 9vw, 140px); line-height: .95; letter-spacing: -.01em }
+    .tagline { margin-top: 28px; font-size: clamp(16px, 1.67vw, 24px); line-height: 1.35 }
+    .cursor {
+      display: inline-block; width: .5em; height: 1em; margin-left: 8px;
+      background: var(--red); vertical-align: -.12em;
+      animation: blink 1s steps(1) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0 } }
+
+    /* The anchor: the scene is centred on this box and scaled by its width
+       (the black hole is drawn three times its size). Its content is the
+       no-WebGL fallback. */
+    .solar-wrap {
+      grid-column: 2; grid-row: 1;
+      align-self: stretch;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .solar-wrap [data-singularity] { width: min(380px, 30vw, 42vh); aspect-ratio: 1; flex-shrink: 0 }
+    .solar-wrap img { display: block; width: 100%; height: 100% }
+
+    .process { padding: clamp(72px, 10vh, 112px) var(--pad); max-width: 75ch }
+    .process h2 { font-size: clamp(32px, 3.75vw, 54px); line-height: 1.04; margin-bottom: 24px }
+    .process p + p { margin-top: 1em }
+    .site-footer { padding: 40px var(--pad) 36px; font-size: 13px }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cursor { animation: none }
+    }
+
+    /* Tablet: stacked, the anchor above the copy. */
+    @media (max-width: 1099px) {
+      :root { --fi: 24px; --hdr: 56px; --pad: 40px }
+      .hero {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: min(36px, 4vh);
+        padding: min(24px, 3vh) var(--pad);
+      }
+      .solar-wrap { width: 100%; align-self: center }
+      .solar-wrap [data-singularity] { width: min(320px, 38vh) }
+      .hero-copy { width: 100%; padding: 0 }
+    }
+
+    /* Phone */
+    @media (max-width: 767px) {
+      :root { --fi: 12px; --pad: 20px }
+      .hero { padding: 16px var(--pad) 28px; gap: 20px; align-items: flex-start }
+      .solar-wrap [data-singularity] { width: min(78vw, 300px) }
+      h1 { font-size: min(13vw, 88px) }
+    }
+  </style>
+  <script>
+    /* Before first paint: hide the fallback drawing for the scene; a module error brings it back. */
+    if ('noModule' in HTMLScriptElement.prototype) { var gl = document.documentElement.classList; gl.add('gl'); addEventListener('error', function (e) { if (/singularity(\.lib)?\.js/.test(e.filename)) gl.remove('gl') }) }
+  </script>
+</head>
+
+<body>
+  <div class="frame" data-singularity-clip>
+    <header class="site-header">rakhimkulov<span class="amp">&amp;</span>co</header>
+
+    <main>
+      <section class="hero">
+        <!-- The anchor comes first in the DOM, so the stacked layouts put it above the copy. -->
+        <div class="solar-wrap" aria-hidden="true">
+          <div data-singularity><img src="solar-system.svg" alt="" width="380" height="380"></div>
+        </div>
+        <div class="hero-copy">
+          <h1>manage<br>uncertainty</h1>
+          <p class="tagline">minimize the risk with deep research.<br>accelerate delivery with lean development<span class="cursor"></span></p>
+        </div>
+      </section>
+
+      <section class="process">
+        <h2>the page keeps scrolling</h2>
+        <p>The black hole scrolls away with the hero and stops drawing once it is out of view. Move the pointer through the gas: it parts and closes again behind it. Come close to the surfer and he carves away.</p>
+        <p>Add <code>?at=16.5</code> to the URL to freeze the final frame, <code>?at=4.8</code> for the explosion, <code>?from=10</code> to skip the intro. With reduced motion on, the final frame is shown still.</p>
+        <p>Three modes: <a href="?mode=full">full</a> (the whole story), <a href="?mode=galaxy">galaxy</a> (the galaxy alone, turning), <a href="?mode=hole">hole</a> (the black hole from its birth, with the surfer). A page picks one with <code>data-singularity-mode</code> on the anchor or <code>mount({ mode })</code>; <code>?mode=</code> overrides it here.</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">© 2026 rakhimkulov<span class="amp">&amp;</span>co</footer>
+  </div>
+
+  <script type="module" src="../dist/singularity.js" onerror="document.documentElement.classList.remove('gl')"></script>
+</body>
+
+</html>

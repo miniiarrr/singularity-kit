@@ -1,0 +1,10 @@
+/* singularity-kit: the canvas layer and the fallback switch.
+   The canvas covers the viewport behind the page (z-index -1), except during
+   the explosion, when it comes in front of everything. While the scene runs,
+   <html> carries the class `gl` and the anchor's content (the fallback
+   drawing) is hidden; any failure removes the class and shows it again. */
+.cosmos { position: fixed; inset: 0; width: 100%; height: 100%; display: block; pointer-events: none; z-index: 10; }
+.cosmos.behind { z-index: -1; }
+html:not(.gl) .cosmos { display: none; }
+.gl [data-singularity] { visibility: hidden; }
+.gl [data-singularity], .gl [data-singularity] * { animation: none; }

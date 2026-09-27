@@ -1,0 +1,81 @@
+{
+  "name": "@miniiarrr/singularity",
+  "version": "1.0.0",
+  "description": "The rakhimkulov&co landing animation: a galaxy of ink dots collapses into a black hole and a surfer rides it. three.js; three modes (full, galaxy, hole); one mount() call or one script tag.",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Miniiar Rakhimkulov",
+  "homepage": "https://github.com/rakhimkulof/website/tree/main/singularity-kit#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rakhimkulof/website.git",
+    "directory": "singularity-kit"
+  },
+  "keywords": [
+    "three",
+    "threejs",
+    "webgl",
+    "animation",
+    "black-hole",
+    "galaxy",
+    "hero",
+    "landing-page",
+    "react",
+    "claude-skill"
+  ],
+  "type": "module",
+  "types": "./index.d.ts",
+  "sideEffects": [
+    "./dist/singularity.js",
+    "*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./src/main.js"
+    },
+    "./bundle": {
+      "types": "./index.d.ts",
+      "default": "./dist/singularity.lib.js"
+    },
+    "./auto": "./dist/singularity.js",
+    "./react": {
+      "types": "./react/index.d.ts",
+      "default": "./react/index.js"
+    },
+    "./singularity.css": "./singularity.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "dist",
+    "react",
+    "index.d.ts",
+    "singularity.css",
+    "SKILL.md",
+    "LICENSE",
+    "README.md",
+    "CLAUDE.md"
+  ],
+  "scripts": {
+    "build": "esbuild src/auto.js --bundle --minify --format=esm --target=es2020 --log-level=warning --outfile=dist/singularity.js && esbuild src/main.js --bundle --minify --format=esm --target=es2020 --log-level=warning --outfile=dist/singularity.lib.js",
+    "serve": "python3 -m http.server 8000",
+    "verify": "python3 verify.py",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=17",
+    "three": ">=0.160.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "three": "0.186.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
