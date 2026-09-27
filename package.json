@@ -1,6 +1,6 @@
 {
   "name": "@miniiarrr/singularity",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A landing-page animation: a galaxy of ink dots collapses into a black hole and a surfer rides it. three.js; three modes (full, galaxy, hole); one mount() call or one script tag.",
   "license": "SEE LICENSE IN LICENSE",
   "author": "Miniiar Rakhimkulov",
